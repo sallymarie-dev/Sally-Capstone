@@ -1,1 +1,13 @@
-
+body {
+    background-color:#b4eee9 
+}
+h1, h5 {
+    font-style: italic;
+    font-family: fantasy;
+    color:chocolate;
+}
+li, p {
+    font-style:italic;
+    font-family:fantasy;
+    color:brown;
+}
