@@ -91,3 +91,6 @@ Describe your project here. What does your application do? What APIs and AI feat
 List any people, resources, or APIs you used while working on this project.  
  people: ty oby, dylin w., clay, tom, robert, jennifer, isaac.
 resources: git hub api list, postman, placehold, git bootstrap, w3schools, google images, hugging face.
+
+About my project:
+My app is a barcode-powered food lookup tool that I built to make it easier for users to get quick information about what they’re eating or drinking. When someone types the barcode the app connects to the OpenFoodFacts API and shows them the product name, image, and key nutrition facts like calories, protein, carbs, and fat. I also made sure that if some data is missing, the app shows a placeholder so it’s always clear and easy to read. Recently, I added LLaMA AI to make the app even more helpful — now users can search for recipes based on the product they just scanned. This feature turns the app into more than just a nutrition lookup tool; it becomes a way for users to get inspired and find new meal ideas right away.
