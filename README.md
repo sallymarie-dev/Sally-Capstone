@@ -57,20 +57,20 @@ Describe your project here. What does your application do? What APIs and AI feat
 
 ### Core Functionality
 
-- [ ] **User Interface**: Clean, responsive Bootstrap UI with proper styling _(Complete after Level 7)_
-- [ ] **Interactive Features**: Buttons and inputs that listen and respond to actions from the user _(Complete after Level 9)_
-- [ ] **API Integration**: Successfully connects to external API and displays data _(Complete after Level 15)_
-- [ ] **AI Integration**: Implements AI model calls with proper response handling _(Complete after Level 20)_
-- [ ] **Input Validation**: Professional error handling and user feedback. Use if statements for this _(Complete after Level 12)_
+- [X] **User Interface**: Clean, responsive Bootstrap UI with proper styling _(Complete after Level 7)_
+- [X] **Interactive Features**: Buttons and inputs that listen and respond to actions from the user _(Complete after Level 9)_
+- [X] **API Integration**: Successfully connects to external API and displays data _(Complete after Level 15)_
+- [X] **AI Integration**: Implements AI model calls with proper response handling _(Complete after Level 20)_
+- [X] **Input Validation**: Professional error handling and user feedback. Use if statements for this _(Complete after Level 12)_
 - [ ] **Challenge: Error Handling**: Graceful handling of API failures and network issues _(Complete after Level 16 for API errors, Level 21 for AI errors)_
 
 ### Technical Implementation
 
-- [ ] **Code Organization**: Clean, well-structured JavaScript with meaningful names for ids, variables, and functions
-- [ ] **Version Control**: Regular commits with descriptive messages
-- [ ] **Testing**: Thoroughly tested across different scenarios and edge cases
-- [ ] **Documentation**: Complete README, from the [EXAMPLE_README.md](/codex-lv2-may-2025/guides/week8-capstone/EXAMPLE_README.html) with feature descriptions and checkmarks checked
-- [ ] **Polish**: Professional presentation with attention to user experience
+- [X] **Code Organization**: Clean, well-structured JavaScript with meaningful names for ids, variables, and functions
+- [X] **Version Control**: Regular commits with descriptive messages
+- [X] **Testing**: Thoroughly tested across different scenarios and edge cases
+- [X] **Documentation**: Complete README, from the [EXAMPLE_README.md](/codex-lv2-may-2025/guides/week8-capstone/EXAMPLE_README.html) with feature descriptions and checkmarks checked
+- [X] **Polish**: Professional presentation with attention to user experience
 
 ---
 
