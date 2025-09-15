@@ -28,48 +28,98 @@ document.getElementById("search-btn").addEventListener("click", function () {
     .then((data) => {
       // console.log(data); // optional for debugging
 
-      if (data.status === 1) {
-        var item = data.product;
-        // Set image (if exists)
-        if (item.image_url) {
-          setImageSrc("product-image", item.image_url);
-        } else {
-          setImageSrc("product-image", "https://via.placeholder.com/400x250");
-        }
-        // Set product name
-        setText("product-name", item.product_name || "Unknown Product");
+//       if (data.status === 1) {
+//         var item = data.product;
+//         // Set image (if exists)
+//         if (item.image_url) {
+//           setImageSrc("product-image", item.image_url);
+//         } else {
+//           setImageSrc("product-image", "https://via.placeholder.com/400x250");
+//         }
+//         // Set product name
+//         setText("product-name", item.product_name || "Unknown Product");
 
-        // Set nutrition info
-        var nutrients = item.nutriments;
-        // Some items might not have all fields
-        var calories =
-          nutrients["energy-kcal_100g"] !== undefined
-            ? nutrients["energy-kcal_100g"] + " kcal"
-            : "N/A";
-        var protein =
-          nutrients.proteins_100g !== undefined
-            ? nutrients.proteins_100g + " g"
-            : "N/A";
-        var carbs =
-          nutrients.carbohydrates_100g !== undefined
-            ? nutrients.carbohydrates_100g + " g"
-            : "N/A";
-        var fat =
-          nutrients.fat_100g !== undefined ? nutrients.fat_100g + " g" : "N/A";
+//         // Set nutrition info
+//         var nutrients = item.nutriments;
+//         // Some items might not have all fields
+//         var calories =
+//           nutrients["energy-kcal_100g"] !== undefined
+//             ? nutrients["energy-kcal_100g"] + " kcal"
+//             : "N/A";
+//         var protein =
+//           nutrients.proteins_100g !== undefined
+//             ? nutrients.proteins_100g + " g"
+//             : "N/A";
+//         var carbs =
+//           nutrients.carbohydrates_100g !== undefined
+//             ? nutrients.carbohydrates_100g + " g"
+//             : "N/A";
+//         var fat =
+//           nutrients.fat_100g !== undefined ? nutrients.fat_100g + " g" : "N/A";
 
-        setText(
-          "nutrition-info",
-          `Calories: ${calories}\nProtein: ${protein}\nCarbs: ${carbs}\nFat: ${fat}`
-        );
-      } else {
-        setText("error-message", "Product not found for that barcode.");
-      }
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-      setText("error-message", "Error fetching data. Please try again.");
-    });
-});
+//         setText(
+//           "nutrition-info",
+//           `Calories: ${calories}\nProtein: ${protein}\nCarbs: ${carbs}\nFat: ${fat}`
+//         );
+//       } else {
+//         setText("error-message", "Product not found for that barcode.");
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Fetch error:", error);
+//       setText("error-message", "Error fetching data. Please try again.");
+//     });
+// });
+
+if (data.status === 1) {
+  var item = data.product;
+
+  // Set image (fallback if missing)
+  if (item.image_url) {
+    setImageSrc("product-image", item.image_url);
+  } else {
+    setImageSrc("product-image", "https://via.placeholder.com/400x250");
+  }
+
+  // Set product name
+  if (item.product_name) {
+    setText("product-name", item.product_name);
+  } else {
+    setText("product-name", "Unknown Product");
+  }
+
+  // Get nutrients safely
+  var nutrients = item.nutriments || {};
+  var calories = "N/A";
+  var protein = "N/A";
+  var carbs = "N/A";
+  var fat = "N/A";
+
+  if (nutrients["energy-kcal_100g"]) {
+    calories = nutrients["energy-kcal_100g"] + " kcal";
+  }
+  if (nutrients.proteins_100g) {
+    protein = nutrients.proteins_100g + " g";
+  }
+  if (nutrients.carbohydrates_100g) {
+    carbs = nutrients.carbohydrates_100g + " g";
+  }
+  if (nutrients.fat_100g) {
+    fat = nutrients.fat_100g + " g";
+  }
+
+  setText(
+    "nutrition-info",
+    "Calories: " + calories + "\n" +
+    "Protein: " + protein + "\n" +
+    "Carbs: " + carbs + "\n" +
+    "Fat: " + fat
+  );
+
+} else {
+  setText("error-message", "Product not found for that barcode.");
+}
+
 
 var botReply = "";
 // botReply=response.choices[0].message.content
