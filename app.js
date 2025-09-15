@@ -26,6 +26,8 @@ document.getElementById("search-btn").addEventListener("click", function () {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
+      
+      // code i dont want to use anymore!
       // console.log(data); // optional for debugging
 
 //       if (data.status === 1) {
@@ -71,7 +73,9 @@ document.getElementById("search-btn").addEventListener("click", function () {
 //     });
 // });
 
-if (data.status === 1) {
+
+// success code
+if (data.status) {
   var item = data.product;
 
   // Set image (fallback if missing)
@@ -88,26 +92,26 @@ if (data.status === 1) {
     setText("product-name", "Unknown Product");
   }
 
-  // Get nutrients safely
+  // nutrients info (N/A will pop up of the info isnt available for that barcode)
   var nutrients = item.nutriments || {};
   var calories = "N/A";
   var protein = "N/A";
   var carbs = "N/A";
   var fat = "N/A";
 
-  if (nutrients["energy-kcal_100g"]) {
-    calories = nutrients["energy-kcal_100g"] + " kcal";
+  if (nutrients["energy-kcal"]) {
+    calories = nutrients["energy-kcal"] + " kcal";
   }
-  if (nutrients.proteins_100g) {
-    protein = nutrients.proteins_100g + " g";
+  if (nutrients.proteins) {
+    protein = nutrients.proteins + " g";
   }
-  if (nutrients.carbohydrates_100g) {
-    carbs = nutrients.carbohydrates_100g + " g";
+  if (nutrients.carbohydrates) {
+    carbs = nutrients.carbohydrates + " g";
   }
-  if (nutrients.fat_100g) {
-    fat = nutrients.fat_100g + " g";
+  if (nutrients.fat) {
+    fat = nutrients.fat + " g";
   }
-
+// new line
   setText(
     "nutrition-info",
     "Calories: " + calories + "\n" +
@@ -115,7 +119,7 @@ if (data.status === 1) {
     "Carbs: " + carbs + "\n" +
     "Fat: " + fat
   );
-
+// if barcode is wrong or invalid then error message will show
 } else {
   setText("error-message", "Product not found for that barcode.");
 }
@@ -141,7 +145,7 @@ document.getElementById("Ai-btn").addEventListener("click", function () {
     );
     const result = await response.json();
     return result;
-  }
+  };
 
   query({
     messages: [
@@ -150,7 +154,7 @@ document.getElementById("Ai-btn").addEventListener("click", function () {
         content: `Give me a recipe for ${userPrompt}?`,
       },
     ],
-    model: "meta-llama/Llama-3.1-8B-Instruct:fireworks-ai",
+    model: "meta-llama/Llama-3.1-8B-Instruct:fireworks-ai"
   }).then((response) => {
     console.log(JSON.stringify(response));
     botReply = response.choices[0].message.content;
@@ -158,4 +162,4 @@ document.getElementById("Ai-btn").addEventListener("click", function () {
     setText("output", botReply);
     setProperty("output", "color", "purple");
   });
-});
+})}
