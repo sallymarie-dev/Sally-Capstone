@@ -1,4 +1,4 @@
-// my functions
+// my functions, src tells which image to display when updated
 function getValue(id) {
   return document.getElementById(id).value;
 }
@@ -9,9 +9,9 @@ function setImageSrc(id, src) {
   document.getElementById(id).src = src;
 }
 
-// Event listener
+// Event listener, click seatch
 document.getElementById("search-btn").addEventListener("click", function () {
-  var barcode = getValue("barcode-input").trim();
+  var barcode = getValue("barcode-input");
   if (barcode === "") {
     setText("error-message", "Please enter a barcode");
     return;
@@ -37,23 +37,54 @@ document.getElementById("search-btn").addEventListener("click", function () {
           item.image_url || "https://via.placeholder.com/400x250"
         );
 
-        // Name
+        // product Name, if barcode is invalid will say
         setText("product-name", item.product_name || "Unknown Product");
 
         // Nutrients
         var nutrients = item.nutriments || {};
-        var calories = nutrients["energy-kcal"]
-          ? nutrients["energy-kcal"] + " kcal"
-          : "N/A";
-        var protein = nutrients.proteins ? nutrients.proteins + " g" : "N/A";
-        var carbs = nutrients.carbohydrates
-          ? nutrients.carbohydrates + " g"
-          : "N/A";
-        var fat = nutrients.fat ? nutrients.fat + " g" : "N/A";
+        var calories, protein, carbs, fat;
+
+        // Calories
+        if (nutrients.energy_kcal) {
+          calories = nutrients.energy_kcal + " kcal";
+        } else {
+          calories = "N/A";
+        }
+
+        // Protein
+        if (nutrients.proteins) {
+          protein = nutrients.proteins + " g";
+        } else {
+          protein = "N/A";
+        }
+
+        // Carbs
+        if (nutrients.carbohydrates) {
+          carbs = nutrients.carbohydrates + " g";
+        } else {
+          carbs = "N/A";
+        }
+
+        // Fat
+        if (nutrients.fat) {
+          fat = nutrients.fat + " g";
+        } else {
+          fat = "N/A";
+        }
 
         setText(
           "nutrition-info",
-          `Calories: ${calories}\nProtein: ${protein}\nCarbs: ${carbs}\nFat: ${fat}`
+          "Calories: " +
+            calories +
+            "\n" +
+            "Protein: " +
+            protein +
+            "\n" +
+            "Carbs: " +
+            carbs +
+            "\n" +
+            "Fat: " +
+            fat
         );
       } else {
         setText("error-message", "Product not found for that barcode.");
