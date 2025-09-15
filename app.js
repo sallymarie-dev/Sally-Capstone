@@ -10,88 +10,60 @@ function setImageSrc(id, src) {
 }
 
 // Event listener
-document
-  .getElementById("search-btn")
-  .addEventListener("click", function () {
-    var barcode = getValue("barcode-input").trim();
-    if (barcode === "") {
-      setText("error-message", "Please enter a barcode");
-      return;
-    }
+document.getElementById("search-btn").addEventListener("click", function () {
+  var barcode = getValue("barcode-input").trim();
+  if (barcode === "") {
+    setText("error-message", "Please enter a barcode");
+    return;
+  }
 
-    // Clear previous errors
-    setText("error-message", "");
+  // Clear previous errors
+  setText("error-message", "");
 
-    // Build URL
-    var url = `https://us.openfoodfacts.org/api/v0/product/${barcode}.json`;
+  // Build URL
+  var url = `https://us.openfoodfacts.org/api/v0/product/${barcode}.json`;
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data === 1);
-      });
-    if (data.status === 1) {
-      var item = data.product;
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Status:" === 1);
 
-      // Set image (fallback if missing)
-      if (item.image_url) {
-        setImageSrc("product-image", item.image_url);
+      if (data.status === 1) {
+        var item = data.product;
+
+        // Image
+        setImageSrc(
+          "product-image",
+          item.image_url || "https://via.placeholder.com/400x250"
+        );
+
+        // Name
+        setText("product-name", item.product_name || "Unknown Product");
+
+        // Nutrients
+        var nutrients = item.nutriments || {};
+        var calories = nutrients["energy-kcal"]
+          ? nutrients["energy-kcal"] + " kcal"
+          : "N/A";
+        var protein = nutrients.proteins ? nutrients.proteins + " g" : "N/A";
+        var carbs = nutrients.carbohydrates
+          ? nutrients.carbohydrates + " g"
+          : "N/A";
+        var fat = nutrients.fat ? nutrients.fat + " g" : "N/A";
+
+        setText(
+          "nutrition-info",
+          `Calories: ${calories}\nProtein: ${protein}\nCarbs: ${carbs}\nFat: ${fat}`
+        );
       } else {
-        setImageSrc("product-image", "https://via.placeholder.com/400x250");
+        setText("error-message", "Product not found for that barcode.");
       }
-
-      // Set product name
-      if (item.product_name) {
-        setText("product-name", item.product_name);
-      } else {
-        setText("product-name", "Unknown Product");
-      }
-
-      // Get nutrients safely
-      var nutrients = item.nutriments;
-      // Some items might not have all fields
-      var nutrients = item.nutriments || {};
-      var calories = "N/A";
-      var protein = "N/A";
-      var carbs = "N/A";
-      var fat = "N/A";
-      /// display info
-      if (nutrients) {
-        calories = nutrients + " kcal";
-      }
-      if (nutrients.proteins) {
-        protein = nutrients.proteins + " g";
-      }
-      if (nutrients.carbohydrates) {
-        carbs = nutrients.carbohydrates + " g";
-      }
-      if (nutrients.fat) {
-        fat = nutrients.fat + " g";
-      }
-
-      setText(
-        "nutrition-info",
-        "Calories: " +
-          calories +
-          "\n" +
-          "Protein: " +
-          protein +
-          "\n" +
-          "Carbs: " +
-          carbs +
-          "\n" +
-          "Fat: " +
-          fat
-      );
-    } else {
-      setText("error-message", "Product not found for that barcode.");
-    }
-  })
-  //if barcode is wrong or invalid
-  .catch((error) => {
-    console.error("Fetch error:", error);
-    setText("error-message", "Error fetching data. Please try again.");
-  });
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      setText("error-message", "Error fetching data. Please try again.");
+    });
+});
 
 query({
   messages: [
