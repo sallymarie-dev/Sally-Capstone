@@ -96,18 +96,37 @@ document.getElementById("search-btn").addEventListener("click", function () {
     });
 });
 
-query({
-  messages: [
-    {
-      role: "user",
-      content: `Give me a recipe for ${userPrompt}?`,
-    },
-  ],
-  model: "meta-llama/Llama-3.1-8B-Instruct:fireworks-ai",
-}).then((response) => {
-  console.log(JSON.stringify(response));
-  botReply = response.choices[0].message.content;
-  // Render the reply in the output area
-  setText("output", botReply);
-  setProperty("output", "color", "purple");
+var botReply = "";
+document.getElementById("Ai-btn").addEventListener("click", () => {
+  var userPrompt = getValue("Ai-input");
+  async function query(data) {
+    const response = await fetch(
+      "https://router.huggingface.co/v1/chat/completions",
+      {
+        headers: {
+          Authorization: `Bearer ${HF_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
+    const result = await response.json();
+    return result;
+  }
+  query({
+    messages: [
+      {
+        role: "user",
+        content: `Give me a recipe for ${userPrompt}?`,
+      },
+    ],
+    model: "meta-llama/Llama-3.1-8B-Instruct:fireworks-ai",
+  }).then((response) => {
+    console.log(JSON.stringify(response));
+    botReply = response.choices[0].message.content;
+    // Render the reply in the output area
+    setText("output", botReply);
+    setProperty("output", "color", "purple");
+  });
 });
