@@ -71,7 +71,7 @@ document.getElementById("search-btn").addEventListener("click", function () {
         } else {
           fat = "N/A";
         }
-
+        setText("nutrilist", "");
         setText(
           "nutrition-info",
           "Calories: " +
